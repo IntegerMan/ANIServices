@@ -125,6 +125,7 @@ namespace MattEland.Ani.AniServices.DataObjects
         /// Gets or sets the weather icon class for HTML representation.
         /// </summary>
         /// <value>The icon class.</value>
+        [DataMember]
         public string IconClass { get; set; }
     }
 }
