@@ -12,14 +12,13 @@ namespace AniServices
     using System;
     using System.Collections.Generic;
     
-    public partial class UserNode
+    public partial class AspNetUserClaim
     {
-        public int UN_ID { get; set; }
-        public int UN_UserID { get; set; }
-        public int UN_NodeID { get; set; }
-        public System.DateTime UN_CreatedTimeUTC { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
     
-        public virtual Node Node { get; set; }
-        public virtual User User { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

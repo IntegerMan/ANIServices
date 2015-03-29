@@ -27,9 +27,14 @@ namespace AniServices
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<GPSLocation> GPSLocations { get; set; }
         public virtual DbSet<Node> Nodes { get; set; }
         public virtual DbSet<NodeType> NodeTypes { get; set; }
+        public virtual DbSet<ServiceStatu> ServiceStatus { get; set; }
         public virtual DbSet<Severity> Severities { get; set; }
         public virtual DbSet<TrafficIncident> TrafficIncidents { get; set; }
         public virtual DbSet<TrafficIncidentSeverity> TrafficIncidentSeverities { get; set; }
@@ -40,7 +45,9 @@ namespace AniServices
         public virtual DbSet<WeatherCode> WeatherCodes { get; set; }
         public virtual DbSet<WeatherFrostResult> WeatherFrostResults { get; set; }
         public virtual DbSet<WeatherPrediction> WeatherPredictions { get; set; }
+        public virtual DbSet<WeatherRecord> WeatherRecords { get; set; }
         public virtual DbSet<WeatherSource> WeatherSources { get; set; }
+        public virtual DbSet<WebTheme> WebThemes { get; set; }
         public virtual DbSet<ZipCode> ZipCodes { get; set; }
         public virtual DbSet<FrostPredictionDataView> FrostPredictionDataViews { get; set; }
     
@@ -121,7 +128,7 @@ namespace AniServices
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertUpdateTrafficIncident", incidentIDParameter, descriptionParameter, congsestionParameter, detourParameter, laneParameter, roadClosedParameter, verifiedParameter, createdTimeUTCParameter, modifiedTimeUTCParameter, startTimeUTCParameter, endTimeUTCParameter, locationLatParameter, locationLngParameter, endLocationLatParameter, endLocationLngParameter, creatorUserNodeIDParameter, severityIDParameter, typeIDParameter);
         }
     
-        public virtual int InsertUpdateWeatherPrediction(Nullable<System.DateTime> predictionDateUTC, Nullable<int> creatorNodeID, Nullable<int> zipCode, Nullable<double> low, Nullable<double> high, Nullable<int> code, Nullable<double> minutesToDefrost)
+        public virtual int InsertUpdateWeatherPrediction(Nullable<System.DateTime> predictionDateUTC, Nullable<int> creatorNodeID, Nullable<int> zipCode, Nullable<double> low, Nullable<double> high, Nullable<int> code, Nullable<double> minutesToDefrost, string description)
         {
             var predictionDateUTCParameter = predictionDateUTC.HasValue ?
                 new ObjectParameter("PredictionDateUTC", predictionDateUTC) :
@@ -151,7 +158,203 @@ namespace AniServices
                 new ObjectParameter("MinutesToDefrost", minutesToDefrost) :
                 new ObjectParameter("MinutesToDefrost", typeof(double));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertUpdateWeatherPrediction", predictionDateUTCParameter, creatorNodeIDParameter, zipCodeParameter, lowParameter, highParameter, codeParameter, minutesToDefrostParameter);
+            var descriptionParameter = description != null ?
+                new ObjectParameter("Description", description) :
+                new ObjectParameter("Description", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertUpdateWeatherPrediction", predictionDateUTCParameter, creatorNodeIDParameter, zipCodeParameter, lowParameter, highParameter, codeParameter, minutesToDefrostParameter, descriptionParameter);
+        }
+    
+        public virtual ObjectResult<ActiveTrafficIncidentInfoSelect_Result> ActiveTrafficIncidentInfoSelect(Nullable<bool> includeAccidents, Nullable<bool> includeConstruction)
+        {
+            var includeAccidentsParameter = includeAccidents.HasValue ?
+                new ObjectParameter("IncludeAccidents", includeAccidents) :
+                new ObjectParameter("IncludeAccidents", typeof(bool));
+    
+            var includeConstructionParameter = includeConstruction.HasValue ?
+                new ObjectParameter("IncludeConstruction", includeConstruction) :
+                new ObjectParameter("IncludeConstruction", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ActiveTrafficIncidentInfoSelect_Result>("ActiveTrafficIncidentInfoSelect", includeAccidentsParameter, includeConstructionParameter);
+        }
+    
+        public virtual ObjectResult<ActiveWeatherPredictionsSelect_Result> ActiveWeatherPredictionsSelect(Nullable<int> zipCode, Nullable<System.DateTime> afterDate)
+        {
+            var zipCodeParameter = zipCode.HasValue ?
+                new ObjectParameter("ZipCode", zipCode) :
+                new ObjectParameter("ZipCode", typeof(int));
+    
+            var afterDateParameter = afterDate.HasValue ?
+                new ObjectParameter("AfterDate", afterDate) :
+                new ObjectParameter("AfterDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ActiveWeatherPredictionsSelect_Result>("ActiveWeatherPredictionsSelect", zipCodeParameter, afterDateParameter);
+        }
+    
+        public virtual int InsertUpdateZipCode(Nullable<int> zipCode, Nullable<double> lat, Nullable<double> lng, string name, string state)
+        {
+            var zipCodeParameter = zipCode.HasValue ?
+                new ObjectParameter("ZipCode", zipCode) :
+                new ObjectParameter("ZipCode", typeof(int));
+    
+            var latParameter = lat.HasValue ?
+                new ObjectParameter("Lat", lat) :
+                new ObjectParameter("Lat", typeof(double));
+    
+            var lngParameter = lng.HasValue ?
+                new ObjectParameter("Lng", lng) :
+                new ObjectParameter("Lng", typeof(double));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var stateParameter = state != null ?
+                new ObjectParameter("State", state) :
+                new ObjectParameter("State", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertUpdateZipCode", zipCodeParameter, latParameter, lngParameter, nameParameter, stateParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> InsertUser(string iD, Nullable<int> zipCode, string firstName, string lastName)
+        {
+            var iDParameter = iD != null ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(string));
+    
+            var zipCodeParameter = zipCode.HasValue ?
+                new ObjectParameter("ZipCode", zipCode) :
+                new ObjectParameter("ZipCode", typeof(int));
+    
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("FirstName", firstName) :
+                new ObjectParameter("FirstName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("LastName", lastName) :
+                new ObjectParameter("LastName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("InsertUser", iDParameter, zipCodeParameter, firstNameParameter, lastNameParameter);
+        }
+    
+        public virtual ObjectResult<LatestWeatherEntrySelect_Result> LatestWeatherEntrySelect(Nullable<int> zipCode)
+        {
+            var zipCodeParameter = zipCode.HasValue ?
+                new ObjectParameter("ZipCode", zipCode) :
+                new ObjectParameter("ZipCode", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LatestWeatherEntrySelect_Result>("LatestWeatherEntrySelect", zipCodeParameter);
+        }
+    
+        public virtual int RecordWeatherObservation(Nullable<int> zipCode, Nullable<int> weatherCode, Nullable<int> temperature, string desc, Nullable<System.DateTime> recordTimeUTC, Nullable<int> createdUserID, string sunrise, string sunset, Nullable<int> humidity, Nullable<int> visibility, Nullable<double> pressure, Nullable<int> rising, Nullable<int> windChill, Nullable<int> windDirection, Nullable<int> windSpeed, Nullable<double> lat, Nullable<double> lng, Nullable<int> sourceID)
+        {
+            var zipCodeParameter = zipCode.HasValue ?
+                new ObjectParameter("ZipCode", zipCode) :
+                new ObjectParameter("ZipCode", typeof(int));
+    
+            var weatherCodeParameter = weatherCode.HasValue ?
+                new ObjectParameter("WeatherCode", weatherCode) :
+                new ObjectParameter("WeatherCode", typeof(int));
+    
+            var temperatureParameter = temperature.HasValue ?
+                new ObjectParameter("Temperature", temperature) :
+                new ObjectParameter("Temperature", typeof(int));
+    
+            var descParameter = desc != null ?
+                new ObjectParameter("Desc", desc) :
+                new ObjectParameter("Desc", typeof(string));
+    
+            var recordTimeUTCParameter = recordTimeUTC.HasValue ?
+                new ObjectParameter("RecordTimeUTC", recordTimeUTC) :
+                new ObjectParameter("RecordTimeUTC", typeof(System.DateTime));
+    
+            var createdUserIDParameter = createdUserID.HasValue ?
+                new ObjectParameter("CreatedUserID", createdUserID) :
+                new ObjectParameter("CreatedUserID", typeof(int));
+    
+            var sunriseParameter = sunrise != null ?
+                new ObjectParameter("Sunrise", sunrise) :
+                new ObjectParameter("Sunrise", typeof(string));
+    
+            var sunsetParameter = sunset != null ?
+                new ObjectParameter("Sunset", sunset) :
+                new ObjectParameter("Sunset", typeof(string));
+    
+            var humidityParameter = humidity.HasValue ?
+                new ObjectParameter("Humidity", humidity) :
+                new ObjectParameter("Humidity", typeof(int));
+    
+            var visibilityParameter = visibility.HasValue ?
+                new ObjectParameter("Visibility", visibility) :
+                new ObjectParameter("Visibility", typeof(int));
+    
+            var pressureParameter = pressure.HasValue ?
+                new ObjectParameter("Pressure", pressure) :
+                new ObjectParameter("Pressure", typeof(double));
+    
+            var risingParameter = rising.HasValue ?
+                new ObjectParameter("Rising", rising) :
+                new ObjectParameter("Rising", typeof(int));
+    
+            var windChillParameter = windChill.HasValue ?
+                new ObjectParameter("WindChill", windChill) :
+                new ObjectParameter("WindChill", typeof(int));
+    
+            var windDirectionParameter = windDirection.HasValue ?
+                new ObjectParameter("WindDirection", windDirection) :
+                new ObjectParameter("WindDirection", typeof(int));
+    
+            var windSpeedParameter = windSpeed.HasValue ?
+                new ObjectParameter("WindSpeed", windSpeed) :
+                new ObjectParameter("WindSpeed", typeof(int));
+    
+            var latParameter = lat.HasValue ?
+                new ObjectParameter("Lat", lat) :
+                new ObjectParameter("Lat", typeof(double));
+    
+            var lngParameter = lng.HasValue ?
+                new ObjectParameter("Lng", lng) :
+                new ObjectParameter("Lng", typeof(double));
+    
+            var sourceIDParameter = sourceID.HasValue ?
+                new ObjectParameter("SourceID", sourceID) :
+                new ObjectParameter("SourceID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RecordWeatherObservation", zipCodeParameter, weatherCodeParameter, temperatureParameter, descParameter, recordTimeUTCParameter, createdUserIDParameter, sunriseParameter, sunsetParameter, humidityParameter, visibilityParameter, pressureParameter, risingParameter, windChillParameter, windDirectionParameter, windSpeedParameter, latParameter, lngParameter, sourceIDParameter);
+        }
+    
+        public virtual ObjectResult<WeatherFrostDataSelect_Result> WeatherFrostDataSelect()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<WeatherFrostDataSelect_Result>("WeatherFrostDataSelect");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> WeatherFrostResultsInsert(Nullable<int> creatorUserNodeID, Nullable<bool> rainedOvernight, Nullable<bool> snowedOvernight, Nullable<double> minutesToDefrost, Nullable<int> zipCode, Nullable<System.DateTime> predictionDate)
+        {
+            var creatorUserNodeIDParameter = creatorUserNodeID.HasValue ?
+                new ObjectParameter("CreatorUserNodeID", creatorUserNodeID) :
+                new ObjectParameter("CreatorUserNodeID", typeof(int));
+    
+            var rainedOvernightParameter = rainedOvernight.HasValue ?
+                new ObjectParameter("RainedOvernight", rainedOvernight) :
+                new ObjectParameter("RainedOvernight", typeof(bool));
+    
+            var snowedOvernightParameter = snowedOvernight.HasValue ?
+                new ObjectParameter("SnowedOvernight", snowedOvernight) :
+                new ObjectParameter("SnowedOvernight", typeof(bool));
+    
+            var minutesToDefrostParameter = minutesToDefrost.HasValue ?
+                new ObjectParameter("MinutesToDefrost", minutesToDefrost) :
+                new ObjectParameter("MinutesToDefrost", typeof(double));
+    
+            var zipCodeParameter = zipCode.HasValue ?
+                new ObjectParameter("ZipCode", zipCode) :
+                new ObjectParameter("ZipCode", typeof(int));
+    
+            var predictionDateParameter = predictionDate.HasValue ?
+                new ObjectParameter("PredictionDate", predictionDate) :
+                new ObjectParameter("PredictionDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WeatherFrostResultsInsert", creatorUserNodeIDParameter, rainedOvernightParameter, snowedOvernightParameter, minutesToDefrostParameter, zipCodeParameter, predictionDateParameter);
         }
     }
 }

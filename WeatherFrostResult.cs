@@ -19,10 +19,11 @@ namespace AniServices
         public int WFR_PredictionID { get; set; }
         public int WFR_CreatorUserNodeID { get; set; }
         public bool WFR_HadFrost { get; set; }
+        public Nullable<bool> WFR_HadSnow { get; set; }
         public bool WFR_RainedOvernight { get; set; }
         public Nullable<double> WFR_MinutesToDefrost { get; set; }
     
-        public virtual UserNode UserNode { get; set; }
+        public virtual User User { get; set; }
         public virtual WeatherPrediction WeatherPrediction { get; set; }
     }
 }

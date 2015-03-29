@@ -39,13 +39,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3-beta1\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="EntityFramework">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3-beta1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -83,6 +81,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveTrafficIncidentInfoSelect_Result.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActiveWeatherPredictionsSelect_Result.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AniDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -101,6 +105,18 @@
     <Compile Include="AniService.svc.cs">
       <DependentUpon>AniService.svc</DependentUpon>
     </Compile>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="FrostPredictionDataView.cs">
       <DependentUpon>AniDataModel.tt</DependentUpon>
     </Compile>
@@ -108,6 +124,9 @@
       <DependentUpon>AniDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="IAniService.cs" />
+    <Compile Include="LatestWeatherEntrySelect_Result.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Node.cs">
       <DependentUpon>AniDataModel.tt</DependentUpon>
     </Compile>
@@ -115,6 +134,9 @@
       <DependentUpon>AniDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceStatu.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Severity.cs">
       <DependentUpon>AniDataModel.tt</DependentUpon>
     </Compile>
@@ -139,13 +161,22 @@
     <Compile Include="WeatherCode.cs">
       <DependentUpon>AniDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="WeatherFrostDataSelect_Result.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="WeatherFrostResult.cs">
       <DependentUpon>AniDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="WeatherPrediction.cs">
       <DependentUpon>AniDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="WeatherRecord.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="WeatherSource.cs">
+      <DependentUpon>AniDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebTheme.cs">
       <DependentUpon>AniDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ZipCode.cs">
@@ -156,7 +187,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
     <EntityDeploy Include="AniDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>AniDataModel.Designer.cs</LastGenOutput>
@@ -164,6 +194,7 @@
     <Content Include="AniDataModel.edmx.diagram">
       <DependentUpon>AniDataModel.edmx</DependentUpon>
     </Content>
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\matteland.com - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\matteland.com - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">

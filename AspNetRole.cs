@@ -12,24 +12,18 @@ namespace AniServices
     using System;
     using System.Collections.Generic;
     
-    public partial class ZipCode
+    public partial class AspNetRole
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ZipCode()
+        public AspNetRole()
         {
-            this.WeatherRecords = new HashSet<WeatherRecord>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
-        public int ID { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
-        public string State { get; set; }
-        public Nullable<double> Lat { get; set; }
-        public Nullable<double> Lng { get; set; }
-        public int ServiceStatusID { get; set; }
-        public System.DateTime CreatedDateUTC { get; set; }
     
-        public virtual ServiceStatu ServiceStatu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WeatherRecord> WeatherRecords { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }

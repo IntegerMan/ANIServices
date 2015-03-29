@@ -20,7 +20,6 @@ namespace AniServices
             this.Nodes = new HashSet<Node>();
             this.Transits = new HashSet<Transit>();
             this.Transits1 = new HashSet<Transit>();
-            this.ZipCodes = new HashSet<ZipCode>();
         }
     
         public int GPS_ID { get; set; }
@@ -33,7 +32,5 @@ namespace AniServices
         public virtual ICollection<Transit> Transits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transit> Transits1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ZipCode> ZipCodes { get; set; }
     }
 }

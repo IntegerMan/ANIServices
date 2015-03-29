@@ -34,6 +34,6 @@ namespace AniServices
     
         public virtual TrafficIncidentSeverity TrafficIncidentSeverity { get; set; }
         public virtual TrafficIncidentType TrafficIncidentType { get; set; }
-        public virtual UserNode UserNode { get; set; }
+        public virtual User User { get; set; }
     }
 }
