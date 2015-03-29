@@ -45,6 +45,7 @@ namespace MattEland.Ani.AniServices
             {
                 model.Conditions = new WeatherConditionData
                 {
+                    WeatherDate = latestRecord.CreatedDateUTC,
                     Temperature = latestRecord.Temperature,
                     Sunrise = latestRecord.Sunrise,
                     Sunset = latestRecord.Sunset,
