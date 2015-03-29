@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="AniServices.AniService" CodeBehind="AniService.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="MattEland.Ani.AniServices.AniService" CodeBehind="AniService.svc.cs" %>

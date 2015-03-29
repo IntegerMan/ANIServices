@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AniServices
+namespace MattEland.Ani.AniServices
 {
     using System;
     using System.Collections.Generic;
