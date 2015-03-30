@@ -38,7 +38,24 @@ namespace MattEland.Ani.AniServices
         /// <returns>Weather data for the specified zip code.</returns>
         public WeatherData GetWeatherData(int zipCode)
         {
-            var model = new WeatherData { ZipCode = zipCode };
+            // Build out basic model information
+            var model = new WeatherData
+            {
+                ZipCode = zipCode,
+                PressureUnits = "in",
+                VisibilityUnits = "mi",
+                TemperatureUnits = "F",
+                WindUnits = "mph"
+            };
+
+            // Include Metadata from the zip code
+            var zipData = _entities.ZipCodes.FirstOrDefault(z => z.ID == zipCode);
+            if (zipData != null)
+            {
+                model.City = zipData.Name;
+                model.Lat = zipData.Lat;
+                model.Long = zipData.Lng;
+            }
 
             var latestRecord = _entities.LatestWeatherEntrySelect(zipCode).FirstOrDefault();
             if (latestRecord != null)
