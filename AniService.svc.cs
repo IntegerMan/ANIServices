@@ -18,10 +18,12 @@ namespace MattEland.Ani.AniServices
         /// Gets the number of minutes estimated to scrape frost from a car for the specified zip code and date.
         /// This will error if out of the area of service or not for a time with recorded data present.
         /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="apiKey">The API key.</param>
         /// <param name="zipCode">The zip code.</param>
         /// <param name="predictionDate">The prediction date.</param>
         /// <returns>The number of minutes required to scrape frost from a car in the morning.</returns>
-        public double? GetFrostScrapeTimeInMinutes(int zipCode, DateTime predictionDate)
+        public double? GetFrostScrapeTimeInMinutes(string userName, string apiKey, int zipCode, DateTime predictionDate)
         {
             // Ensure we're just working with the date
             predictionDate = predictionDate.Date;
@@ -34,9 +36,11 @@ namespace MattEland.Ani.AniServices
         /// <summary>
         /// Gets weather data for a specified zip code including current conditions and forecasts.
         /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="apiKey">The API key.</param>
         /// <param name="zipCode">The zip code.</param>
         /// <returns>Weather data for the specified zip code.</returns>
-        public WeatherData GetWeatherData(int zipCode)
+        public WeatherData GetWeatherData(string userName, string apiKey, int zipCode)
         {
             // Build out basic model information
             var model = new WeatherData
